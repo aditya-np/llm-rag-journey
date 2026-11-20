@@ -1,0 +1,7 @@
+tiktoken
+python-dotenv
+# Add packages as each lesson needs them, e.g.:
+# openai
+# anthropic
+# chromadb
+# sentence-transformers
