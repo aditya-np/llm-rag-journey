@@ -1,0 +1,24 @@
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Data and vector stores (keep only small samples in data/)
+data/raw/
+chroma_db/
+*.faiss
+*.index
+
+# Logs
+*.log
+
+# macOS / editors
+.DS_Store
+.vscode/
+.idea/
