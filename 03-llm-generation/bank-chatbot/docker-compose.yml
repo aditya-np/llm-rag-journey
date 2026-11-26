@@ -1,0 +1,14 @@
+services:
+  banking-api:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: sqlite:////app/data/banking.sqlite3
+    volumes:
+      - banking-data:/app/data
+
+volumes:
+  banking-data:

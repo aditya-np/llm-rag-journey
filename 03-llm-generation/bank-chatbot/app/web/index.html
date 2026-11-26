@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f4f6f8" />
+    <title>Smart Banking | Demo Console</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Smart Banking home">
+        <span class="brand-mark">S</span>
+        <span>Smart Banking <small>BACKEND DEMO</small></span>
+      </a>
+      <div class="identity">
+        <label for="customer-select">Demo customer</label>
+        <select id="customer-select">
+          <option value="demo-token-alex">Alex Morgan</option>
+          <option value="demo-token-jamie">Jamie Lee</option>
+        </select>
+        <span class="avatar" id="avatar">A</span>
+        <button id="chat-toggle" class="chat-toggle" type="button" aria-expanded="false">Open chat comparison</button>
+      </div>
+    </header>
+
+    <main id="top" class="page-shell">
+      <section class="welcome">
+        <div>
+          <p class="eyebrow">CUSTOMER OVERVIEW</p>
+          <h1>Good day, <span id="customer-name">Alex</span></h1>
+          <p class="muted">A read-only view of the selected demo profile and its banking services.</p>
+        </div>
+        <div class="connection"><span class="status-dot"></span><span id="connection-status">Connecting to local API</span></div>
+      </section>
+
+      <section class="summary-grid" aria-label="Account summary">
+        <article class="summary-card">
+          <div class="summary-heading"><span class="icon icon-blue">€</span><span class="muted">TOTAL BALANCE</span></div>
+          <strong id="total-balance">—</strong>
+          <span id="account-count" class="helper">Loading accounts…</span>
+        </article>
+        <article class="summary-card">
+          <div class="summary-heading"><span class="icon icon-violet">↗</span><span class="muted">ACTIVE LOANS</span></div>
+          <strong id="active-loans">—</strong>
+          <span id="loan-note" class="helper">Loading loan details…</span>
+        </article>
+        <article class="summary-card">
+          <div class="summary-heading"><span class="icon icon-amber">▣</span><span class="muted">AVAILABLE CREDIT</span></div>
+          <strong id="available-credit">—</strong>
+          <span id="card-note" class="helper">Loading cards…</span>
+        </article>
+        <article class="summary-card">
+          <div class="summary-heading"><span class="icon icon-green">◷</span><span class="muted">RECURRING PAYMENTS</span></div>
+          <strong id="payment-count">—</strong>
+          <span class="helper">Scheduled payments</span>
+        </article>
+      </section>
+
+      <div class="content-grid">
+        <section class="panel" id="accounts-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">YOUR MONEY</p><h2>Accounts</h2></div>
+            <span class="panel-icon">€</span>
+          </div>
+          <div id="accounts-list" class="stack"><div class="skeleton"></div></div>
+          <div id="transactions-area" class="transactions-area" hidden>
+            <div class="subheading"><h3>Recent transactions</h3><button id="close-transactions" class="text-button">Close</button></div>
+            <div id="transactions-list"></div>
+          </div>
+        </section>
+
+        <section class="panel" id="loans-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">BORROWING</p><h2>Loans</h2></div>
+            <span class="panel-icon violet">↗</span>
+          </div>
+          <div id="loans-list" class="stack"><div class="skeleton"></div></div>
+          <div class="eligibility" id="loan-eligibility"></div>
+        </section>
+
+        <section class="panel" id="cards-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">YOUR CARDS</p><h2>Credit cards</h2></div>
+            <span class="panel-icon amber">▣</span>
+          </div>
+          <div id="cards-list" class="stack"><div class="skeleton"></div></div>
+          <div class="eligibility" id="card-eligibility"></div>
+        </section>
+
+        <section class="panel" id="payments-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">UPCOMING</p><h2>Recurring payments</h2></div>
+            <span class="panel-icon green">◷</span>
+          </div>
+          <div id="payments-list" class="stack"><div class="skeleton"></div></div>
+        </section>
+
+        <section class="panel" id="limit-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">REQUEST REVIEW</p><h2>Ask for a limit increase</h2></div>
+            <span class="panel-icon amber">＋</span>
+          </div>
+          <p class="muted small-copy">Submit a request for review. Your current card limit will not change automatically.</p>
+          <form id="limit-form" class="form-grid">
+            <label>Card<select id="limit-card" required><option value="">Choose a card</option></select></label>
+            <label>Requested new limit (EUR)<input id="requested-limit" type="number" min="0.01" step="0.01" placeholder="4,000.00" required /></label>
+            <button class="primary-button" type="submit">Submit request</button>
+          </form>
+          <div id="limit-result" class="result-box" aria-live="polite" hidden></div>
+        </section>
+
+        <section class="panel" id="faqs-panel">
+          <div class="panel-heading">
+            <div><p class="eyebrow">HELP CENTER</p><h2>Frequently asked questions</h2></div>
+            <span class="panel-icon blue">?</span>
+          </div>
+          <form id="faq-form" class="search-form">
+            <input id="faq-query" type="search" placeholder="Search help topics…" aria-label="Search FAQs" />
+            <button class="secondary-button" type="submit">Search</button>
+          </form>
+          <div id="faqs-list" class="faq-list"><div class="skeleton"></div></div>
+        </section>
+      </div>
+
+      <footer><span>Smart Banking Backend · Local demo only</span><a href="/docs" target="_blank" rel="noreferrer">Open API reference ↗</a></footer>
+    </main>
+    <aside id="chat-panel" class="chat-panel" aria-label="Banking chat">
+      <div class="chat-header">
+        <div class="chat-title-wrap">
+          <div class="chat-avatar">S</div>
+          <div><h2>Banking helper</h2><span class="chat-mode"><i></i> DETERMINISTIC RULES</span></div>
+        </div>
+        <button id="chat-close" class="chat-close" type="button" aria-label="Close chat">×</button>
+      </div>
+      <div class="chat-notice">Uses the selected customer’s authenticated profile for banking lookups.</div>
+      <div id="chat-messages" class="chat-messages" aria-live="polite">
+        <div class="chat-message assistant-message">
+          <div class="message-bubble">Hi! I can help check your balance, loans, card limit, recurring payments, and FAQs. What would you like to know?</div>
+          <details class="step-details"><summary>Steps</summary><ol><li>Greeting rule matched</li><li>No backend call</li></ol></details>
+        </div>
+      </div>
+      <div id="rule-quick-prompts" class="quick-prompts" aria-label="Deterministic example questions">
+        <button type="button" data-prompt="What is my balance?">Balance</button>
+        <button type="button" data-prompt="Do I have recurring payments?">Payments</button>
+        <button type="button" data-prompt="What is my card limit?">Card limit</button>
+      </div>
+      <form id="chat-form" class="chat-form">
+        <label class="sr-only" for="chat-input">Message the banking helper</label>
+        <input id="chat-input" maxlength="500" autocomplete="off" placeholder="Ask about your banking…" required />
+        <button type="submit" aria-label="Send message">↑</button>
+      </form>
+      <div class="chat-footnote">Deterministic responses · No LLM</div>
+    </aside>
+    <aside id="ai-chat-panel" class="chat-panel ai-chat-panel" aria-label="AI chat">
+      <div class="chat-header">
+        <div class="chat-title-wrap">
+          <div class="chat-avatar ai-avatar">Q</div>
+          <div><h2>AI banking assistant</h2><span class="chat-mode"><i></i> QWEN · BANKING TOOLS</span></div>
+        </div>
+        <button id="ai-chat-close" class="chat-close" type="button" aria-label="Close chat comparison">×</button>
+      </div>
+      <div class="chat-notice">Uses the selected profile’s authorization. Banking lookups run through limited server tools.</div>
+      <div id="ai-chat-messages" class="chat-messages" aria-live="polite">
+        <div class="chat-message assistant-message">
+          <div class="message-bubble">Hi! I’m the AI banking assistant. I can check your accounts, loans, cards, recurring payments, and banking FAQs.</div>
+          <details class="step-details"><summary>Steps</summary><ol><li>AI panel ready</li><li>No backend call</li></ol></details>
+        </div>
+      </div>
+      <div id="ai-quick-prompts" class="quick-prompts" aria-label="AI example questions">
+        <button type="button" data-prompt="What is my balance?">Same: balance</button>
+        <button type="button" data-prompt="Am I eligible for a loan?">Loan eligibility</button>
+      </div>
+      <form id="ai-chat-form" class="chat-form">
+        <label class="sr-only" for="ai-chat-input">Message the AI banking assistant</label>
+        <input id="ai-chat-input" maxlength="1000" autocomplete="off" placeholder="Ask Qwen a question…" required />
+        <button type="submit" aria-label="Send message to AI">↑</button>
+      </form>
+      <div class="chat-footnote">Qwen via local Ollama · Server tools are scoped to the active profile</div>
+    </aside>
+    <button id="chat-backdrop" class="chat-backdrop" type="button" aria-label="Close chat"></button>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="/app.js" defer></script>
+  </body>
+</html>
